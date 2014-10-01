@@ -12,7 +12,7 @@
 
 function load_ward(ward){
     var clean_data = [];
-    d3.json('area/wards_data/'+ ward +'.json', function(data) {
+    d3.json('area/wards_data/seasonal/'+ ward +'_seasonal.json', function(data) {
       for (key in data){
           values = [];
           for (v in data[key]){
@@ -41,6 +41,11 @@ function load_ward(ward){
 
         chart.yAxis
             .tickFormat(d3.format(',.0f'));
+
+        chart.xAxis
+        .tickFormat(function(d) {
+          return d3.time.format('%B')(new Date(d))
+        });
 
         d3.select('#chart svg')
           .datum(clean_data)
