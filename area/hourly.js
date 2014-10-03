@@ -9,10 +9,15 @@
        ...
 
 */
-
+var fix = 'seasonal'
 function load_ward(ward){
+    if (fix == 'seasonal'){
+        datapath = 'area/wards_data/seasonal/'+ ward +'_seasonal.json'
+    } else{
+        datapath = 'area/wards_data/'+ ward +'.json'
+    }
     var clean_data = [];
-    d3.json('area/wards_data/seasonal/'+ ward +'_seasonal.json', function(data) {
+    d3.json(datapath, function(data) {
       for (key in data){
           values = [];
           for (v in data[key]){
@@ -42,14 +47,26 @@ function load_ward(ward){
         chart.yAxis
             .tickFormat(d3.format(',.0f'));
 
-        chart.xAxis
-        .tickFormat(function(d) {
-          return d3.time.format('%B')(new Date(d))
-        });
+        if (fix == 'seasonal'){
+            chart.xAxis
+            .tickFormat(function(d) {
+              return d3.time.format('%B')(new Date(d))
+            });
+        } else{
+            chart.xAxis
+            .tickFormat(function(d) {
+              return d + ':00';
+            });
+        }
 
         d3.select('#chart svg')
           .datum(clean_data)
           .call(chart);
+
+        chart.stacked.dispatch.on('areaClick', function(e){
+            category = e.series;
+            load_distribution(category);
+        });
 
         //nv.utils.windowResize(chart.update);
 
@@ -58,4 +75,49 @@ function load_ward(ward){
     })
 }
 
+var d;
+function load_distribution(category){
+  cat_data = [];
+  d3.json('area/wards_data/type_distributions.json', function(data) {
+      console.log(data)
+      category = data[category];
+
+      for (val in category){
+          cat_data.push({'label': val, 'value': category[val]});
+      }
+
+      //Create Donut chart
+      nv.addGraph(function() {
+
+        var chart = nv.models.pieChart()
+          .x(function(d) { return d.label })
+          .y(function(d) { return d.value })
+          .showLabels(true)     //Display pie labels
+          .showLegend(false)
+          .labelThreshold(.05)  //Configure the minimum slice size for labels to show up
+          .labelType("key") //Configure what type of data to show in the label. Can be "key", "value" or "percent"
+          .donut(true)          //Turn on Donut mode. Makes pie chart look tasty!
+          .donutRatio(0.35)     //Configure how big you want the donut hole size to be.
+          ;
+
+        d3.select("#donut svg")
+            .datum(cat_data)
+            .transition().duration(350)
+            .call(chart);
+
+        return chart
+      });
+  });
+}
+
+$('#toggle').click(function(){
+    if (fix == 'seasonal'){
+        fix = '';
+    } else{
+        fix = 'seasonal';
+    }
+    load_ward('ALL')
+});
+
 load_ward('ALL')
+load_distribution("Park Maintenance SAP")

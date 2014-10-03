@@ -4,27 +4,36 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="This flight animation uses d3.js geo and SVG transition.">
-    <script src="//code.jquery.com/jquery-2.0.0.js"></script>
+    <script src="jquery-2.0.0.js"></script>
+    <link rel="stylesheet" href="bootstrap.min.css">
     <style>
-        path {
-            fill: #00ff00;
+        #map path {
+            fill: cyan;
             stroke: #111;
         }
     </style>
 
 </head>
 <body>
-    <div id="map" style="height:500px;">
-
-    </div>
-
     <div id='chart' style='width:100%'>
-        <svg style='height:500px' />
+        <svg style='height:300px;' />
     </div>
 
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="http://d3js.org/queue.v1.min.js" charset="utf-8"></script>
-    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <div class="row">
+        <div id="map" class="col-lg-8" style="margin-top:-50px; padding-left:100px;">
+
+        </div>
+
+        <div id="donut" class="col-lg-4" style="float:right; margin-top:-100px;">
+            <svg style='height:500px;width:400px'/>
+        </div>
+    </div>
+
+    <button id="toggle" type="button">Toggle Daily/Seasonal</button>
+
+    <script src="d3.v3.min.js" charset="utf-8"></script>
+    <script src="queue.v1.min.js" charset="utf-8"></script>
+    <script src="topojson.v1.min.js"></script>
     <script src="311.js"></script>
 
     <link href="area/nv.d3.css" rel="stylesheet">

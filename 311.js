@@ -1,7 +1,7 @@
 var w;
 $(function() {
-    var width = 960,
-    height = 500;
+    var width = 500,
+    height = 450;
 
     var projection = d3.geo.albers();
 
