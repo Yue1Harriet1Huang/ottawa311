@@ -8,13 +8,18 @@
     <link rel="stylesheet" href="bootstrap.min.css">
     <style>
         #map path {
-            fill: cyan;
+            fill: #008b7e;
             stroke: #111;
+        }
+
+        #map path:hover{
+            fill: #0059b2;
         }
     </style>
 
 </head>
 <body>
+    <button id="toggle" type="button">Toggle Daily/Yearly</button>
     <div id='chart' style='width:100%'>
         <svg style='height:300px;' />
     </div>
@@ -28,8 +33,6 @@
             <svg style='height:500px;width:400px'/>
         </div>
     </div>
-
-    <button id="toggle" type="button">Toggle Daily/Seasonal</button>
 
     <script src="d3.v3.min.js" charset="utf-8"></script>
     <script src="queue.v1.min.js" charset="utf-8"></script>

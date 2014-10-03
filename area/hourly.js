@@ -35,6 +35,7 @@ function load_ward(ward){
                       .rightAlignYAxis(true)      //Let's move the y-axis to the right side.
                       .transitionDuration(500)
                       .showControls(false)
+                      .showLegend(false)
                       .clipEdge(true)
                       .style('stream');
 
